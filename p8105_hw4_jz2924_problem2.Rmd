@@ -1,0 +1,31 @@
+---
+title: "p8105_hw4_jz2924_problem2"
+author: "Jian Zou"
+output:
+  html_document: 
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(haven)
+library(ggridges)
+library(janitor)
+
+gdp = read_csv("./data/GDP.csv")
+colnames(gdp) = c('mon', 'gdp')
+
+pols_month = read_csv("./data/pols-month.csv") %>%
+  clean_names() %>%
+  mutate(mon = lubridate::floor_date(mon, unit = "month"))
+
+pols_month = 
+  left_join(pols_month, gdp, by = 'mon') %>%
+  na.omit()
+```
