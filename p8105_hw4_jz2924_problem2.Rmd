@@ -27,5 +27,12 @@ pols_month = read_csv("./data/pols-month.csv") %>%
 
 pols_month = 
   left_join(pols_month, gdp, by = 'mon') %>%
-  na.omit()
+  na.omit() 
+
+pols_month$mon <- as.Date( pols_month$mon, '%Y/%m/%d')
+pols_month$gdp <- as.integer(pols_month$gdp)
+
+pols_plot = pols_month %>%
+  mutate(president = recode(prez_gop, `0` = "dem", `1` = "gop", '2' = 'gop')) %>%
+  ggplot(aes(x=mon, y=gdp, group=president, color=as.factor(president)))+ geom_point()
 ```
