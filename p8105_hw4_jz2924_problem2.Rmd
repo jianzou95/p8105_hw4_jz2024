@@ -32,7 +32,10 @@ pols_month =
 pols_month$mon <- as.Date( pols_month$mon, '%Y/%m/%d')
 pols_month$gdp <- as.integer(pols_month$gdp)
 
-pols_plot = pols_month %>%
+pols_month %>%
   mutate(president = recode(prez_gop, `0` = "dem", `1` = "gop", '2' = 'gop')) %>%
-  ggplot(aes(x=mon, y=gdp, group=president, color=as.factor(president)))+ geom_point()
-```
+  ggplot(aes(x=mon, y=gdp, group=president, color=president))+
+  geom_smooth(se = FALSE)
+```  
+
+From the plot above we can generally conclude that when the president was in the Democratic Party, the gdp was better on anverage.
